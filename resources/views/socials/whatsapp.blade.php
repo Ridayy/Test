@@ -12,7 +12,7 @@
 </div>
 
 <?php
-$response = json_decode(file_get_contents("https://api.chat-api.com/instance129389/status?token=e9wm5loqnwih3mie"));
+$response = json_decode(file_get_contents("https://api.chat-api.com/instance130455/status?token=b52m9hexv2pxrdy9"));
 
 $val = false;
 
@@ -34,7 +34,7 @@ foreach ($response as $key => $value) {
                  <br>
                  <small>10 messages so far!</small>
              </span>
-
+ 
          </a>
     </div>
 
@@ -49,12 +49,12 @@ foreach ($response as $key => $value) {
 
         </a>
    </div>
-
+ 
 </div>
 
-@if($val)
-    <div class="page">
-
+@if($val)  
+    <div class="page"> 
+        
         <div class="contacts">
             <form action="{{ action('WhatsAppController@contact') }}" method="POST">
                 {{ csrf_field() }}
@@ -91,7 +91,7 @@ foreach ($response as $key => $value) {
                         You have no contacts at the moment
                     </small>
                     @endif
-
+                  
                     <div class="contact-info" id="contact-desc">
                         <button id="remove-contact-box">
                             <i class="fas fa-times"></i>
@@ -107,11 +107,11 @@ foreach ($response as $key => $value) {
                                 Remove Contact
                             </button>
                         </div>
-
+            
                     </div>
                 </div>
             </div>
-
+            
         </div>
         <div class="marvel-device nexus5">
         <div class="top-bar"></div>
@@ -155,7 +155,7 @@ foreach ($response as $key => $value) {
                     <i class="zmdi zmdi-phone"></i>
                     </div>
                     <div class="actions">
-
+                               
                     </div>
                 </div>
                 <div class="conversation">
@@ -170,7 +170,7 @@ foreach ($response as $key => $value) {
                         Send me a message
                         <span class="metadata"><span class="time"></span></span>
                     </div>
-{{--
+{{-- 
                      <div class="message sent">
                         <img src="https://www.rd.com/wp-content/uploads/2019/09/walruses-e1567629015796.jpg" alt="" class="message-image">
                         What happened last night swaibu?
@@ -179,11 +179,11 @@ foreach ($response as $key => $value) {
                         </span>
                     </div> --}}
 
-
-
+               
+                    
                     </div>
                     <form class="conversation-compose" method="POST" enctype="multipart/form-data">
-
+                    
                         <textarea class="input-msg" name="input" placeholder="Type a message.." autocomplete="off" autofocus id="input-msg"></textarea>
                         <div class="whatsapp-upload">
                         <button type="button" id="whatsapp-image-upload">
@@ -236,7 +236,7 @@ foreach ($response as $key => $value) {
     <div class="qr-scanner">
        <div>
             <p class="font-weight-bold">
-                To send and receive messages, you have to authorize our server like for WhatsApp Web.
+                To send and receive messages, you have to authorize our server like for WhatsApp Web.  
             </p>
             <ul>
                 <li>
@@ -251,17 +251,14 @@ foreach ($response as $key => $value) {
             </ul>
        </div>
         <div>
-            <img src="https://api.chat-api.com/instance129389/qr_code?token=e9wm5loqnwih3mie" alt="">
-        </div>
+            <img src="https://api.chat-api.com/instance130455/qr_code?token=b52m9hexv2pxrdy9" alt="">
+        </div> 
     </div>
 @endif
 
-@endSection
 
-
-@section('scripts')
 <script>
-   $(document).ready(function(){
+   $(document).ready(function(){    
 
         function progressHandle(){
             $.get("whatsapp/check", { _token: CSRF_TOKEN }, function(data){
@@ -276,20 +273,19 @@ foreach ($response as $key => $value) {
                 console.log("searching...");
             })
         }
-
+        
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         setTimeout(progressHandle, 2000);
 
-
+        
 
         console.log("here")
    });
 
-
+    
 
 </script>
 
-@endsection
-
+@endSection
 
 

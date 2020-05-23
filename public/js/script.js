@@ -611,27 +611,31 @@ $(document).ready(function() {
         }
     );
 
-    $(".caption1")[0].emojioneArea.on("emojibtn.click", function(btn, event) {
-        var val = $(".caption1").data("emojioneArea").getText();
-            if(val == ""){
-                $(".caption1-text").html(linesDiv);
-            }else {
-                $(".caption1-text").html(val);
-            }
+    if($(".caption1").length > 0){
+        $(".caption1")[0].emojioneArea.on("emojibtn.click", function(btn, event) {
+            var val = $(".caption1").data("emojioneArea").getText();
+                if(val == ""){
+                    $(".caption1-text").html(linesDiv);
+                }else {
+                    $(".caption1-text").html(val);
+                }
+    
+                $(".count-word.caption1-word span").html(val.length);
+          })
+    }
 
-            $(".count-word.caption1-word span").html(val.length);
-      })
+      if($(".caption2").length > 0){
+        $(".caption2")[0].emojioneArea.on("emojibtn.click", function(btn, event) {
+            var val = $(".caption2").data("emojioneArea").getText();
+                if(val == ""){
+                    $(".caption2-text").html(linesDiv);
+                }else {
+                    $(".caption2-text").html(val);
+                }
 
-      $(".caption2")[0].emojioneArea.on("emojibtn.click", function(btn, event) {
-        var val = $(".caption2").data("emojioneArea").getText();
-            if(val == ""){
-                $(".caption2-text").html(linesDiv);
-            }else {
-                $(".caption2-text").html(val);
-            }
-
-            $(".count-word.caption2-word span").html(val.length);
-      })
+                $(".count-word.caption2-word span").html(val.length);
+        })
+      }
 
       if($(".caption3").length > 0){
         $(".caption3")[0].emojioneArea.on("emojibtn.click", function(btn, event) {
@@ -685,24 +689,22 @@ $(document).ready(function() {
       })
 
 
-
-    /* Time */
-
-    var deviceTime = document.querySelector('.status-bar .time');
-    var messageTime = document.querySelectorAll('.message .time');
-
-    if(deviceTime)
-        deviceTime.innerHTML = moment().format('h:mm');
-
-    if(deviceTime){
-        setInterval(function() {
-            deviceTime.innerHTML = moment().format('h:mm');
-        }, 1000);
-    }
-
-    for (var i = 0; i < messageTime.length; i++) {
-        messageTime[i].innerHTML = moment().format('h:mm A');
-    }
+ 
+      var deviceTime = document.querySelector('.status-bar .time');
+      var messageTime = document.querySelectorAll('.message .time');
+      
+      if(deviceTime)
+          deviceTime.innerHTML = moment().format('h:mm');
+      
+      if(deviceTime){
+          setInterval(function() {
+              deviceTime.innerHTML = moment().format('h:mm');
+          }, 1000);
+      }
+      
+      for (var i = 0; i < messageTime.length; i++) {
+          messageTime[i].innerHTML = moment().format('h:mm A');
+      }
 
     /* Message */
 
@@ -713,185 +715,280 @@ $(document).ready(function() {
         form.addEventListener('submit', newMessage);
 
 
-    function newMessage(e) {
+        function newMessage(e) {
 
-
-        var input = e.target.input;
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-        var inputText = input.value;
-        $("#input-msg").data("emojioneArea").setText("");
-
-        var numbers = [];
-
-        $(".number-value").each(function(element){
-            var num = this.value;
-            numbers.push(num)
-        });
-
-        var formData = new FormData();
-        formData.append("_token", CSRF_TOKEN);
-        formData.append("message", inputText);
-        formData.append("numbers", JSON.stringify(numbers));
-
-
-        if($('#whatsapp-image')[0].files.length != 0)
-        {
-            formData.append("image", $('#whatsapp-image')[0].files[0])
-        }
-
-        if($('#whatsapp-video')[0].files.length != 0)
-        {
-            formData.append("video", $('#whatsapp-video')[0].files[0])
-        }
-
-        $.ajax({
-            url: "whatsapp/send",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data)
+      
+            var input = e.target.input;
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    
+            var inputText = input.value;
+            $("#input-msg").data("emojioneArea").setText("");
+            
+            var numbers = [];
+    
+            $(".number-value").each(function(element){
+                var num = this.value;
+                numbers.push(num)
+            });
+    
+            var formData = new FormData();
+            formData.append("_token", CSRF_TOKEN);
+            formData.append("message", inputText);
+            formData.append("numbers", JSON.stringify(numbers));
+    
+    
+            if($('#whatsapp-image')[0].files.length != 0)
             {
-               if(data == ""){
+                formData.append("image", $('#whatsapp-image')[0].files[0]) 
+            }
+    
+            if($('#whatsapp-video')[0].files.length != 0)
+            {
+                formData.append("video", $('#whatsapp-video')[0].files[0]) 
+            }
+    
+            if(inputText == "" && $('#whatsapp-image')[0].files.length == 0 && $('#whatsapp-video')[0].files.length == 0){
                 bootbox.alert({
-                    "message" : "Message sent successfully!",
+                    "message" : "Please enter your message",
                     "size" : "small"
                 })
-               }
+            }else{
+                $.ajax({
+                    url: "whatsapp/send",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data)
+                    {
+                       if(data == ""){
+                        bootbox.alert({
+                            "message" : "Message sent successfully!",
+                            "size" : "small"
+                        })
+                       }
+                    }
+        
+                });        
+        
             }
-
+    
+           
+          
+    
+            
+            e.preventDefault()
+    
+            if(inputText != ""){
+                var message = buildMessage(inputText);
+                conversation.appendChild(message);
+                animateMessage(message);
+               
+            }
+    
+            if($('#whatsapp-image')[0].files.length != 0)
+            {
+                var fileInput = $('#whatsapp-image')[0];
+                var fileUrl = window.URL.createObjectURL(fileInput.files[0]);
+                var message = buildMedia(inputText, fileUrl);
+                conversation.appendChild(message);
+                animateMessage(message);
+            }
+    
+            if($('#whatsapp-video')[0].files.length != 0)
+            {
+                var fileInput = $('#whatsapp-video')[0];
+                var fileUrl = window.URL.createObjectURL(fileInput.files[0]);
+                var message = buildMedia(inputText, fileUrl, "video");
+                conversation.appendChild(message);
+                animateMessage(message);
+            }
+    
+            $("#whatsapp-image").val("");
+            $("#whatsapp-video").val("");
+    
+            $("#img-small").show();
+            $(".whatsapp-image-preview img").attr("src", "");
+            $(".whatsapp-image-preview img").hide()
+    
+            $("#video-small").show();
+            $(".whatsapp-video-preview video").attr("src", "");
+            $(".whatsapp-video-preview video").hide()
+    
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+        
+        function buildMessage(text) {
+            var element = document.createElement('div');
+        
+            element.classList.add('message', 'sent');
+        
+            element.innerHTML = text +
+                '<span class="metadata">' +
+                    '<span class="time">' + moment().format('h:mm A') + '</span>' +
+                    '<span class="tick tick-animation">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck" x="2047" y="2061"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#92a58c"/></svg>' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck-ack" x="2063" y="2076"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#4fc3f7"/></svg>' +
+                    '</span>' +
+                '</span>';
+        
+            return element;
+        }
+    
+        function buildMedia(text, media, type="image") {
+    
+            var element = document.createElement('div');
+    
+            let html ="";
+    
+            if(type == "image"){
+               html = `<img src="${media}" alt="" class="message-image">`;
+            }else {
+                html = `<video src="${media}" class="message-video"></video>`;
+            }
+        
+            element.classList.add('message', 'sent');
+        
+            element.innerHTML = text + html +
+                '<span class="metadata">' +
+                    '<span class="time">' + moment().format('h:mm A') + '</span>' +
+                    '<span class="tick tick-animation">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck" x="2047" y="2061"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#92a58c"/></svg>' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck-ack" x="2063" y="2076"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#4fc3f7"/></svg>' +
+                    '</span>' +
+                '</span>';
+        
+            return element;
+        }
+        
+        function animateMessage(message) {
+            console.log(message)
+            setTimeout(function() {
+                var tick = message.querySelector('.tick');
+                tick.classList.remove('tick-animation');
+            }, 500);
+        }
+    
+        $("#whatsapp-image-upload").click(function(){
+            $("#whatsapp-image").click()
         });
-
-
-
-
-        e.preventDefault()
-
-        if(inputText != ""){
-            var message = buildMessage(inputText);
-            conversation.appendChild(message);
-            animateMessage(message);
-
-        }
-
-        if($('#whatsapp-image')[0].files.length != 0)
-        {
-            var fileInput = $('#whatsapp-image')[0];
-            var fileUrl = window.URL.createObjectURL(fileInput.files[0]);
-            var message = buildMedia(inputText, fileUrl);
-            conversation.appendChild(message);
-            animateMessage(message);
-        }
-
-        if($('#whatsapp-video')[0].files.length != 0)
-        {
-            var fileInput = $('#whatsapp-video')[0];
-            var fileUrl = window.URL.createObjectURL(fileInput.files[0]);
-            var message = buildMedia(inputText, fileUrl, "video");
-            conversation.appendChild(message);
-            animateMessage(message);
-        }
-
-        $("#whatsapp-image").val("");
-        $("#whatsapp-video").val("");
-
-        $("#img-small").show();
-        $(".whatsapp-image-preview img").attr("src", "");
-        $(".whatsapp-image-preview img").hide()
-
-        $("#video-small").show();
-        $(".whatsapp-video-preview video").attr("src", "");
-        $(".whatsapp-video-preview video").hide()
-
-        conversation.scrollTop = conversation.scrollHeight;
-    }
-
-    function buildMessage(text) {
-        var element = document.createElement('div');
-
-        element.classList.add('message', 'sent');
-
-        element.innerHTML = text +
-            '<span class="metadata">' +
-                '<span class="time">' + moment().format('h:mm A') + '</span>' +
-                '<span class="tick tick-animation">' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck" x="2047" y="2061"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#92a58c"/></svg>' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck-ack" x="2063" y="2076"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#4fc3f7"/></svg>' +
-                '</span>' +
-            '</span>';
-
-        return element;
-    }
-
-    function buildMedia(text, media, type="image") {
-
-        var element = document.createElement('div');
-
-        let html ="";
-
-        if(type == "image"){
-           html = `<img src="${media}" alt="" class="message-image">`;
-        }else {
-            html = `<video src="${media}" class="message-video"></video>`;
-        }
-
-        element.classList.add('message', 'sent');
-
-        element.innerHTML = text + html +
-            '<span class="metadata">' +
-                '<span class="time">' + moment().format('h:mm A') + '</span>' +
-                '<span class="tick tick-animation">' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck" x="2047" y="2061"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#92a58c"/></svg>' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck-ack" x="2063" y="2076"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#4fc3f7"/></svg>' +
-                '</span>' +
-            '</span>';
-
-        return element;
-    }
-
-    function animateMessage(message) {
-        console.log(message)
-        setTimeout(function() {
-            var tick = message.querySelector('.tick');
-            tick.classList.remove('tick-animation');
-        }, 500);
-    }
-
-    $("#whatsapp-image-upload").click(function(){
-        $("#whatsapp-image").click()
+        
+        $("#whatsapp-video-upload").click(function(){
+            $("#whatsapp-video").click()
+        });
+    
+        $("#input-msg").emojioneArea()
+        
+    
+    
     });
-
-    $("#whatsapp-video-upload").click(function(){
-        $("#whatsapp-video").click()
-    });
-
-    $("#input-msg").emojioneArea()
-
-
-
-});
-
-function validURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-    return pattern.test(str);
-  }
-
-function showHideList(element){
-    element.value == "page" ? showPage(element) : showGroup(element)
-}
-
-function showPage(element){
-    $(element).parent().find(".page-div").show()
-    $(element).parent().find(".group-div").hide();
-}
-
-function showGroup(element){
-    $(element).parent().find(".page-div").hide();
-    $(element).parent().find(".group-div").show();
-}
+    
+    function validURL(str) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return pattern.test(str);
+      }
+    
+    function showHideList(element){
+        element.value == "page" ? showPage(element) : showGroup(element)
+    }
+    
+    function showPage(element){
+        $(element).parent().find(".page-div").show()
+        $(element).parent().find(".group-div").hide();
+    }
+    
+    function showGroup(element){
+        $(element).parent().find(".page-div").hide();
+        $(element).parent().find(".group-div").show();
+    }
+    
+    function showContactInfo(element){
+        var contactDiv = $(element).parent().parent();
+        var id = contactDiv.find(".id-value").val();
+        var name = contactDiv.find(".name-value").val();
+        var number = contactDiv.find(".number-value").val();
+    
+        $("#contact-name-val").val(name);
+        $("#contact-number-val").val(number);
+        $("#contact-id-val").val(id);
+        $("#contact-desc").fadeIn();
+    }
+    
+    $("#remove-contact-box").click(function(){
+        $("#contact-desc").fadeOut();
+    })
+    
+    
+    function updateContactInfo(element){
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        if($("#contact-name-val").val().trim() == "" && $("#contact-number-val").val().trim() == "")
+        {
+            bootbox.alert({
+                message : "Cannot Update The Details",
+                size : "small"
+            })
+    
+            return;
+    
+        }
+    
+        var id =  $("#contact-id-val").val();
+        var name = $("#contact-name-val").val();
+        var number = $("#contact-number-val").val();
+    
+        $.post("/contact/update", {_token: CSRF_TOKEN, name:name, number:number, id:id}, function(data){
+            if(data == ""){
+                bootbox.alert({
+                    message : "Details Updated Successfully",
+                    size : "small"
+                })
+                location.reload();
+            }else {
+                bootbox.alert({
+                    message : "Cannot Update The Details",
+                    size : "small"
+                })
+            }
+        })
+        
+    }
+    
+    function removeContactInfo(element){
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        if($("#contact-id-val").val() == "")
+        {
+            bootbox.alert({
+                message : "Cannot remove the contact!",
+                size : "small"
+            })
+    
+            return;
+    
+        }
+    
+        var id =  $("#contact-id-val").val();
+       
+    
+        $.post("/contact/delete", {_token: CSRF_TOKEN, id:id}, function(data){
+            if(data == ""){
+                bootbox.alert({
+                    message : "Removed Successfully",
+                    size : "small"
+                })
+                location.reload();
+            }else {
+                bootbox.alert({
+                    message : "Cannot remove the contact!",
+                    size : "small"
+                })
+            }
+        })
+        
+    }
+    
+    

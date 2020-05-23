@@ -1134,7 +1134,7 @@ input::placeholder {
       border-radius: 5px;
       border: 1px solid #dedede;
   }
-
+  
   .marvel-device .screen {
     text-align: left;
     border: 10px solid #000;
@@ -1143,13 +1143,13 @@ input::placeholder {
     height: 470px;
     margin-bottom: 10px;
   }
-
+  
   .screen-container {
     height: 100%;
   }
-
+  
   /* Status Bar */
-
+  
   .status-bar {
     height: 25px;
     background: #004e45;
@@ -1157,13 +1157,13 @@ input::placeholder {
     font-size: 14px;
     padding: 0 8px;
   }
-
+  
   .status-bar:after {
     content: "";
     display: table;
     clear: both;
   }
-
+  
   .status-bar div {
     float: right;
     position: relative;
@@ -1172,19 +1172,19 @@ input::placeholder {
     margin: 0 0 0 8px;
     font-weight: 600;
   }
-
+  
   /* Chat */
-
+  
   .chat {
     height: calc(100% - 69px);
   }
-
+  
   .chat-container {
     height: 100%;
   }
-
+  
   /* User Bar */
-
+  
   .user-bar {
     height: 55px;
     background: #005e54;
@@ -1194,54 +1194,54 @@ input::placeholder {
     position: relative;
     z-index: 1;
   }
-
+  
   .user-bar:after {
     content: "";
     display: table;
     clear: both;
   }
-
+  
   .user-bar div {
     float: left;
     transform: translateY(-50%);
     position: relative;
     top: 50%;
   }
-
+  
   .user-bar .actions {
     float: right;
     margin: 5px 0 0 10px;
   }
-
+  
   .user-bar .actions img {
     height:28px;
   }
   .user-bar .actions.more {
     margin: 0 12px 0 20px;
   }
-
+  
   .user-bar .actions.attachment {
     margin: 0 0 0 20px;
   }
-
+  
   .user-bar .actions.attachment i {
     display: block;
   /*   transform: rotate(-45deg); */
   }
-
+  
   .user-bar .avatar {
     margin: 0 0 0 5px;
     width: 36px;
     height: 36px;
   }
-
+  
   .user-bar .avatar img {
     border-radius: 50%;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
     display: block;
     width: 100%;
   }
-
+  
   .user-bar .name {
     font-size: 17px;
     font-weight: 600;
@@ -1252,38 +1252,38 @@ input::placeholder {
     white-space: nowrap;
     width: 110px;
   }
-
+  
   .user-bar .status {
     display: block;
     font-size: 13px;
     font-weight: 400;
     letter-spacing: 0;
   }
-
+  
   /* Conversation */
-
+  
   .conversation {
     height: calc(100% - 12px);
     position: relative;
     background: url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png") repeat;
     z-index: 0;
   }
-
+  
   .conversation ::-webkit-scrollbar {
     transition: all .5s;
     width: 5px;
     height: 1px;
     z-index: 10;
   }
-
+  
   .conversation ::-webkit-scrollbar-track {
     background: transparent;
   }
-
+  
   .conversation ::-webkit-scrollbar-thumb {
     background: #b3ada7;
   }
-
+  
   .conversation .conversation-container {
     height: calc(100% - 68px);
     box-shadow: inset 0 10px 10px -10px #000000;
@@ -1291,15 +1291,15 @@ input::placeholder {
     padding: 0 16px;
     margin-bottom: 19px;
   }
-
+  
   .conversation .conversation-container:after {
     content: "";
     display: table;
     clear: both;
   }
-
+  
   /* Messages */
-
+  
  .page .message {
     color: #000;
     clear: both;
@@ -1312,7 +1312,7 @@ input::placeholder {
     word-wrap: break-word;
     z-index: -1;
   }
-
+  
   .page .message:after {
     position: absolute;
     content: "";
@@ -1320,7 +1320,7 @@ input::placeholder {
     height: 0;
     border-style: solid;
   }
-
+  
   .metadata {
     display: inline-block;
     float: right;
@@ -1328,13 +1328,13 @@ input::placeholder {
     position: relative;
     bottom: -4px;
   }
-
+  
   .metadata .time {
     color: rgba(0, 0, 0, .45);
     font-size: 11px;
     display: inline-block;
   }
-
+  
   .metadata .tick {
     display: inline-block;
     margin-left: 2px;
@@ -1343,72 +1343,72 @@ input::placeholder {
     height: 16px;
     width: 16px;
   }
-
+  
   .metadata .tick svg {
     position: absolute;
     transition: .5s ease-in-out;
   }
-
+  
   .metadata .tick svg:first-child {
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
     -webkit-transform: perspective(800px) rotateY(180deg);
             transform: perspective(800px) rotateY(180deg);
   }
-
+  
   .metadata .tick svg:last-child {
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
     -webkit-transform: perspective(800px) rotateY(0deg);
             transform: perspective(800px) rotateY(0deg);
   }
-
+  
   .metadata .tick-animation svg:first-child {
     -webkit-transform: perspective(800px) rotateY(0);
             transform: perspective(800px) rotateY(0);
   }
-
+  
   .metadata .tick-animation svg:last-child {
     -webkit-transform: perspective(800px) rotateY(-179.9deg);
             transform: perspective(800px) rotateY(-179.9deg);
   }
-
+  
   .page .message:first-child {
     margin: 16px 0 8px;
   }
-
+  
   .page .message.received {
     background: #fff;
     border-radius: 0px 5px 5px 5px;
     float: left;
   }
-
+  
   .message.received .metadata {
     padding: 0 0 0 16px;
   }
-
+  
   .page .message.received:after {
     border-width: 0px 10px 10px 0;
     border-color: transparent #fff transparent transparent;
     top: 0;
     left: -10px;
   }
-
+  
   .page .message.sent {
     background: #e1ffc7;
     border-radius: 5px 0px 5px 5px;
     float: right;
   }
-
+  
   .page .message.sent:after {
     border-width: 0px 0 10px 10px;
     border-color: transparent transparent transparent #e1ffc7;
     top: 0;
     right: -10px;
   }
-
+  
   /* Compose */
-
+  
   .conversation-compose {
     display: flex;
     flex-direction: row;
@@ -1418,13 +1418,13 @@ input::placeholder {
     width: 100%;
     z-index: 2;
   }
-
+  
   .conversation-compose div,
   .conversation-compose input {
     background: #fff;
     height: 100%;
   }
-
+  
   .conversation-compose .emoji {
     display: flex;
     align-items: center;
@@ -1436,7 +1436,7 @@ input::placeholder {
     width: 38px;
     height: 38px;
   }
-
+  
   .conversation-compose .input-msg {
     border: 0;
     flex: 1 1 auto;
@@ -1456,13 +1456,13 @@ input::placeholder {
   .emojionearea{
     position: relative;
   }
-
+  
   .input-msg .emojionearea-button{
     position: absolute;
     left: 10px;
     top:5px;
   }
-
+  
   .conversation-compose .whatsapp-upload {
     flex: 0 0 auto;
     border-radius: 0 30px 30px 0;
@@ -1472,7 +1472,7 @@ input::placeholder {
     padding-right: 6px;
     height: 38px;
   }
-
+  
   .conversation-compose .photo img {
     display: block;
     color: #7d8488;
@@ -1482,8 +1482,8 @@ input::placeholder {
     top: 50%;
     margin-left: 10px;
   }
-
-
+  
+  
   .conversation-compose .send {
     background: transparent;
     border: 0;
@@ -1495,7 +1495,7 @@ input::placeholder {
     outline: none;
     margin-left: .5rem;
   }
-
+  
   .conversation-compose .send .circle {
     background: #008a7c;
     border-radius: 50%;
@@ -1507,11 +1507,11 @@ input::placeholder {
     align-items: center;
     justify-content: center;
   }
-
+  
   .conversation-compose .send .circle i {
     font-size: 18px;
   }
-
+  
   /* Small Screens */
 
   .qr-scanner {
@@ -1590,7 +1590,7 @@ input::placeholder {
       border-radius: 5px;
       display: none;
   }
-
+  
 
   .contact-info input {
       width:100% !important;
@@ -1646,7 +1646,7 @@ input::placeholder {
     position: relative;
     top: 45%;
     color: var(--primary-color);
-}
+}  
 
 .input-msg .emojionearea .emojionearea-editor {
     padding: 3px 24px 3px 12px;

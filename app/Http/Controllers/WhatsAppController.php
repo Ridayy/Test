@@ -74,6 +74,14 @@ class WhatsAppController extends Controller {
         }
     }
 
+    public function delete(Request $request){
+        if($request->input("id") != ""){
+            Contact::where('id',$request->input("id"))->delete();
+        }else {
+           
+        }
+    }
+
     public function send(Request $request){
 
         $numbers = json_decode($request->input("numbers"));
@@ -87,30 +95,30 @@ class WhatsAppController extends Controller {
                 $path = $request->file('image')->storeAs('public/images', $fileNameToStore);
                 $params =array(
                     'phone' => $numbers[$i],
-                    'body' => "http://e57d2766.ngrok.io/social/public/storage/images/".$fileNameToStore,
+                    'body' => "http://8a8985ea.ngrok.io/social/public/storage/images/".$fileNameToStore,
                     'filename' => $filenameWithExt,
                     "caption" => $request->input("message")
                 );
 
-
+                    
                 $query = http_build_query($params);
-
-                $contextData = array (
+    
+                $contextData = array ( 
                             'method' => 'POST',
                             'header' => "Content-Type: application/x-www-form-urlencoded\r\n".
                             "Content-Length: ".strlen($query)."\r\n".
                             "User-Agent:MyAgent/1.0\r\n",
                             'content'=> $query );
-
+                
                 $context = stream_context_create (array ( 'http' => $contextData ));
-
+                
                 $result =  file_get_contents (
-                            'https://api.chat-api.com/instance129389/sendFile?token=e9wm5loqnwih3mie',
+                            'https://api.chat-api.com/instance130455/sendFile?token=b52m9hexv2pxrdy9',  
                             false,
                             $context);
 
-
-
+                
+            
             }
 
             if($request->hasFile('video')){
@@ -121,62 +129,62 @@ class WhatsAppController extends Controller {
                 $path = $request->file('video')->storeAs('public/videos', $fileNameToStore);
                 $params =array(
                     'phone' => $numbers[$i],
-                    'body' => "http://e57d2766.ngrok.io/social/public/storage/videos/".$fileNameToStore,
+                    'body' => "http://8a8985ea.ngrok.io/social/public/storage/videos/".$fileNameToStore,
                     'filename' => $filenameWithExt,
                     "caption" => $request->input("message")
                 );
 
-
+                    
                 $query = http_build_query($params);
-
-                $contextData = array (
+    
+                $contextData = array ( 
                             'method' => 'POST',
                             'header' => "Content-Type: application/x-www-form-urlencoded\r\n".
                             "Content-Length: ".strlen($query)."\r\n".
                             "User-Agent:MyAgent/1.0\r\n",
                             'content'=> $query );
-
+                
                 $context = stream_context_create (array ( 'http' => $contextData ));
-
+                
                 $result =  file_get_contents (
-                            'https://api.chat-api.com/instance129389/sendFile?token=e9wm5loqnwih3mie',
+                            'https://api.chat-api.com/instance130455/sendFile?token=b52m9hexv2pxrdy9',  
                             false,
                             $context);
 
-
-
+                
+            
             }
 
             if(!$request->hasFile('video') && !$request->hasFile('image') && $request->input("message") != ""){
-
+    
                 $params =array(
                     'phone' => $numbers[$i],
                     'body' => $request->input("message")
                 );
 
-
+                    
                 $query = http_build_query($params);
-
-                $contextData = array (
+    
+                $contextData = array ( 
                             'method' => 'POST',
                             'header' => "Content-Type: application/x-www-form-urlencoded\r\n".
                             "Content-Length: ".strlen($query)."\r\n".
                             "User-Agent:MyAgent/1.0\r\n",
                             'content'=> $query );
-
+                
                 $context = stream_context_create (array ( 'http' => $contextData ));
-
+                
                 $result =  file_get_contents (
-                            'https://api.chat-api.com/instance129389/sendMessage?token=e9wm5loqnwih3mie',
+                            'https://api.chat-api.com/instance130455/sendMessage?token=b52m9hexv2pxrdy9',  
                             false,
                             $context);
-
+            
             }
-
-
-
+    
+           
+            
         }
 
-
+       
     }
 }
